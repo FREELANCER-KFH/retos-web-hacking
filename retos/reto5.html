@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 5: Lógica de Mercado</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .shop { background: #161b22; padding: 2rem; border-radius: 8px; border: 1px solid #30363d; width: 350px; }
+        .item { display: flex; justify-content: space-between; margin: 10px 0; padding: 10px; border: 1px solid #30363d; }
+        .balance { font-size: 1.5rem; color: #e3b341; margin-bottom: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="shop">
+        <div class="balance">Saldo: $<span id="saldo">100</span></div>
+        <div class="item">
+            <span>Security Flag</span>
+            <span>$5000</span>
+        </div>
+        <p style="font-size: 0.8rem; color: #8b949e;">Usa la función interna <code>comprar(cantidad)</code> para adquirir productos.</p>
+        <div id="msg" style="margin-top:15px; text-align:center"></div>
+    </div>
+
+    <script>
+        let saldo = 100
+        const precioFlag = 5000
+
+        window.comprar = (cant) => {
+            const total = cant * precioFlag
+            
+            if (saldo >= total) {
+                saldo -= total
+                document.getElementById('saldo').innerText = saldo
+                
+                if (saldo >= 0 && total > 0) {
+                    document.getElementById('msg').innerHTML = '<b style="color:#3fb950">FLAG: FLAG{LOGIC_QUANTITY_FLAW}</b>'
+                } else {
+                    document.getElementById('msg').innerText = `Has "comprado" ${cant} items. Tu saldo ha cambiado.`
+                }
+            } else {
+                document.getElementById('msg').innerText = "Fondos insuficientes."
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 3: Privilegios Locales</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: #161b22; padding: 2rem; border: 1px solid #30363d; border-radius: 8px; text-align: center; }
+        .status { color: #f85149; font-weight: bold; margin: 20px 0; }
+        .admin-content { display: none; color: #3fb950; border: 1px dashed #3fb950; padding: 10px; }
+        button { background: #238636; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Panel de Control v3.0</h2>
+        <p>Estado de sesión:</p>
+        <div id="status" class="status">Cargando...</div>
+        <div id="flag-section" class="admin-content">
+            <strong>FLAG:</strong> FLAG{LOCAL_STORAGE_MASTER_2026}
+        </div>
+        <button onclick="verificarAcceso()">Actualizar Estado</button>
+    </div>
+
+    <script>
+        // Inicializar si no existe
+        if (!localStorage.getItem('user_role')) {
+            localStorage.setItem('user_role', 'guest')
+        }
+
+        const verificarAcceso = () => {
+            const role = localStorage.getItem('user_role')
+            const statusDiv = document.getElementById('status')
+            const flagDiv = document.getElementById('flag-section')
+
+            statusDiv.innerText = `Logueado como: ${role}`
+            
+            if (role === 'admin') {
+                statusDiv.style.color = '#3fb950'
+                flagDiv.style.display = 'block'
+            } else {
+                statusDiv.style.color = '#f85149'
+                flagDiv.style.display = 'none'
+            }
+        }
+
+        verificarAcceso()
+    </script>
+</body>
+</html>
