@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Retos Hacking</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --text: #c9d1d9;
+            --green: #238636;
+            --blue: #58a6ff;
+            --border: #30363d;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        h1 { color: var(--blue); margin-bottom: 30px; }
+
+        .menu-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .reto-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .reto-card:hover {
+            border-color: var(--blue);
+            transform: translateX(5px);
+        }
+
+        .info { display: flex; align-items: center; gap: 15px; }
+
+        .btn-acceder {
+            background-color: var(--green);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .btn-acceder:hover { background-color: #2ea043; }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--green);
+        }
+
+        .completed span {
+            text-decoration: line-through;
+            color: #8b949e;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Laboratorio de Hacking Web</h1>
+
+    <div class="menu-container" id="menu">
+        </div>
+
+    <script>
+        const retos = [
+            { id: 1, nombre: 'Reto 01', url: 'retos/reto1.html' },
+            { id: 2, nombre: 'Reto 02', url: 'retos/reto2.html' },
+            { id: 3, nombre: 'Reto 03', url: 'retos/reto3.html' },
+            { id: 4, nombre: 'Reto 04', url: 'retos/reto4.html' },
+            { id: 5, nombre: 'Reto 05', url: 'retos/reto5.html' }
+        ]
+
+        const menu = document.getElementById('menu')
+
+        const render = () => {
+            menu.innerHTML = retos.map(reto => `
+                <div class="reto-card" id="card-${reto.id}">
+                    <div class="info">
+                        <input type="checkbox" onchange="marcar(${reto.id})">
+                        <span>${reto.nombre}</span>
+                    </div>
+                    <a href="${reto.url}" class="btn-acceder" target="_blank">Acceder</a>
+                </div>
+            `).join('')
+        }
+
+        window.marcar = (id) => {
+            const card = document.getElementById(`card-${id}`)
+            card.classList.toggle('completed')
+        }
+
+        render()
+    </script>
+</body>
+</html>
