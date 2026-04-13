@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 11: Mala Configuración</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; text-align: center; padding-top: 100px; }
+        .alert { color: #d29922; border: 1px solid #d29922; padding: 20px; display: inline-block; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="alert">
+        ⚠️ MODO DE PRODUCCIÓN ACTIVO ⚠️
+        <p>Depuración desactivada para usuarios finales.</p>
+    </div>
+
+    <script>
+        // Nota para el equipo de IT: 
+        // No olvidar borrar el objeto global de testeo antes de subir a producción.
+        window.CONFIG_TEST_INTERNAL = {
+            env: "development",
+            version: "0.9.4-beta",
+            debug_key: "FLAG{DEV_TOOLS_EXPOSURE_X11}",
+            api_endpoint: "https://dev.api.kfh-labs.local/v1"
+        }
+
+        console.log("Sistema cargado. Revisa la consola para logs de errores.")
+    </script>
+</body>
+</html>
