@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 19: Fuerza Bruta PIN</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: monospace; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .pin-box { border: 2px solid #58a6ff; padding: 30px; text-align: center; }
+        input { width: 80px; text-align: center; font-size: 1.5rem; background: #000; border: 1px solid #58a6ff; color: #0f0; outline: none; }
+    </style>
+</head>
+<body>
+    <div class="pin-box">
+        <h3>PIN DE SEGURIDAD (4 Dígitos)</h3>
+        <input type="text" id="pin" maxlength="4" placeholder="0000">
+        <br><br>
+        <button onclick="validarPIN()">DESBLOQUEAR</button>
+        <div id="msg" style="margin-top:20px"></div>
+    </div>
+
+    <script>
+        const secretPIN = "4921" // El alumno debe descubrirlo por fuerza bruta
+
+        window.validarPIN = (p) => {
+            const input = p || document.getElementById('pin').value
+            if (input === secretPIN) {
+                document.getElementById('msg').innerHTML = "<b style='color:#3fb950'>ABIERTO: FLAG{BRUTE_FORCE_SUCCESS_PIN}</b>"
+                return true
+            }
+            return false
+        }
+
+        console.log("Pista: Puedes automatizar la función validarPIN(i) con un loop en la consola.")
+    </script>
+</body>
+</html>
