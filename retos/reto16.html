@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 16: Inyección de Plantillas</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .preview { background: #161b22; border: 1px solid #30363d; padding: 20px; margin-top: 20px; display: inline-block; min-width: 300px; }
+        input { padding: 10px; border-radius: 4px; border: 1px solid #30363d; background: #0d1117; color: #58a6ff; }
+    </style>
+</head>
+<body>
+    <h3>Personalizador de Perfil v2.1</h3>
+    <p>Introduce tu nombre para la vista previa:</p>
+    <input type="text" id="nameInput" placeholder="Ej: {{user.name}}">
+    <button onclick="render()">Previsualizar</button>
+    <br>
+    <div class="preview" id="output">Hola, invitado</div>
+
+    <script>
+        const render = () => {
+            let val = document.getElementById('nameInput').value
+            const output = document.getElementById('output')
+            
+            // Simulación de motor de plantillas (Jinja2/Handlebars)
+            if (val.includes('{{') && val.includes('}}')) {
+                const expression = val.replace('{{', '').replace('}}', '').trim()
+                if (expression === 'config.SECRET_KEY' || expression === '7*7') {
+                    output.innerText = expression === '7*7' ? 'Resultado: 49' : 'FLAG: FLAG{SSTI_TEMPLATE_VULN_2026}'
+                    output.style.color = "#3fb950"
+                } else {
+                    output.innerText = `Error en expresión: ${expression}`
+                }
+            } else {
+                output.innerText = `Hola, ${val}`
+            }
+        }
+    </script>
+</body>
+</html>
