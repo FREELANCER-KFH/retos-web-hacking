@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 9: Salto de Directorio</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: monospace; display: flex; flex-direction: column; align-items: center; padding-top: 50px; }
+        .viewer { background: #161b22; border: 1px solid #30363d; padding: 20px; width: 80%; max-width: 600px; min-height: 200px; border-radius: 5px; }
+        .url-bar { background: #0d1117; padding: 10px; border: 1px solid #30363d; width: 100%; margin-bottom: 20px; color: #58a6ff; }
+        .file-content { color: #8b949e; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h3>File Viewer Enterprise v1.0</h3>
+    <div class="url-bar">GET /api/v1/fetch?file=<span id="current-file">document.txt</span></div>
+    
+    <div class="viewer">
+        <div id="content" class="file-content">Cargando archivo: document.txt...</div>
+    </div>
+
+    <script>
+        const files = {
+            "document.txt": "Este es un documento público compartido con los estudiantes.",
+            "readme.md": "Manual de uso: Solo ver archivos autorizados.",
+            "../../etc/passwd": "root:x:0:0:root:/root:/bin/bash\nFLAG{PATH_TRAVERSAL_EXPLOIT_2026}",
+            ".env": "DB_PASS=123456\nFLAG{DOT_ENV_EXPOSED_99}"
+        }
+
+        window.readFile = (name) => {
+            const content = files[name] || "Error 404: Archivo no encontrado o acceso denegado."
+            document.getElementById('current-file').innerText = name
+            document.getElementById('content').innerText = content
+        }
+
+        setTimeout(() => readFile("document.txt"), 1000)
+        console.log("Pista: Prueba manipulando el parámetro en readFile('../..etc/passwd') o '.env'")
+    </script>
+</body>
+</html>
