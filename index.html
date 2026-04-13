@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Retos Hacking</title>
+    <title>KFH Labs - Panel de Hacking Web</title>
     <style>
         :root {
             --bg: #0d1117;
@@ -12,10 +12,11 @@
             --green: #238636;
             --blue: #58a6ff;
             --border: #30363d;
+            --gold: #d29922;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             display: flex;
@@ -25,45 +26,52 @@
             margin: 0;
         }
 
-        h1 { color: var(--blue); margin-bottom: 30px; }
+        h1 { color: var(--blue); margin-bottom: 10px; }
+        p.subtitle { color: #8b949e; margin-bottom: 30px; }
 
-        .menu-container {
+        .menu-grid {
             width: 100%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 15px;
         }
 
         .reto-card {
             background: var(--card);
             border: 1px solid var(--border);
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: 0.3s;
+            transition: all 0.2s ease;
         }
 
         .reto-card:hover {
             border-color: var(--blue);
-            transform: translateX(5px);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
-        .info { display: flex; align-items: center; gap: 15px; }
+        .info { display: flex; align-items: center; gap: 12px; }
 
         .btn-acceder {
-            background-color: var(--green);
-            color: white;
+            background-color: transparent;
+            color: var(--blue);
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 6px 12px;
+            border: 1px solid var(--blue);
+            border-radius: 4px;
+            font-size: 13px;
             font-weight: bold;
+            transition: 0.2s;
         }
 
-        .btn-acceder:hover { background-color: #2ea043; }
+        .btn-acceder:hover {
+            background-color: var(--blue);
+            color: var(--bg);
+        }
 
         input[type="checkbox"] {
             width: 18px;
@@ -72,26 +80,50 @@
             accent-color: var(--green);
         }
 
-        .completed span {
-            text-decoration: line-through;
-            color: #8b949e;
+        /* Estado completado */
+        .completed { border-color: var(--green) !important; opacity: 0.8; }
+        .completed span { text-decoration: line-through; color: #8b949e; }
+        
+        .badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: #30363d;
+            color: var(--gold);
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-    <h1>Laboratorio de Hacking Web</h1>
+    <h1>KFH Labs: Hacking Workshop</h1>
+    <p class="subtitle">Selecciona un módulo para comenzar la intrusión</p>
 
-    <div class="menu-container" id="menu">
+    <div class="menu-grid" id="menu">
         </div>
 
     <script>
         const retos = [
-            { id: 1, nombre: 'Reto 01: JS Exposure', url: 'retos/reto1.html' },
-            { id: 2, nombre: 'Reto 02: Ofuscación', url: 'retos/reto2.html' },
-            { id: 3, nombre: 'Reto 03: LocalStorage Manipulation', url: 'retos/reto3.html' },
-            { id: 4, nombre: 'Reto 04: Header Spoofing', url: 'retos/reto4.html' },
-            { id: 5, nombre: 'Reto 05: Business Logic Error', url: 'retos/reto5.html' }
+            { id: 1, nombre: '01: JS Exposure', cat: 'Lógica' },
+            { id: 2, nombre: '02: Ofuscación', cat: 'Análisis' },
+            { id: 3, nombre: '03: LocalStorage', cat: 'Storage' },
+            { id: 4, nombre: '04: User-Agent', cat: 'Headers' },
+            { id: 5, nombre: '05: Logic Error', cat: 'Business' },
+            { id: 6, nombre: '06: HTML Injection', cat: 'Inyección' },
+            { id: 7, nombre: '07: Broken IDOR', cat: 'Acceso' },
+            { id: 8, nombre: '08: Weak Crypto', cat: 'Cripto' },
+            { id: 9, nombre: '09: Path Traversal', cat: 'Archivos' },
+            { id: 10, nombre: '10: Command Inj.', cat: 'OS' },
+            { id: 11, nombre: '11: Misconfig', cat: 'Config' },
+            { id: 12, nombre: '12: Insecure JWT', cat: 'Tokens' },
+            { id: 13, nombre: '13: NoSQL Inj.', cat: 'DB' },
+            { id: 14, nombre: '14: SSRF Attack', cat: 'Red' },
+            { id: 15, nombre: '15: Access Control', cat: 'Cookies' },
+            { id: 16, nombre: '16: SSTI Injection', cat: 'Server' },
+            { id: 17, nombre: '17: Prototype Pol.', cat: 'JS Advanced' },
+            { id: 18, nombre: '18: Metadata Exp.', cat: 'Forense' },
+            { id: 19, nombre: '19: Brute Force', cat: 'Auth' },
+            { id: 20, nombre: '20: Open Redirect', cat: 'Phishing' }
         ]
 
         const menu = document.getElementById('menu')
@@ -101,9 +133,12 @@
                 <div class="reto-card" id="card-${reto.id}">
                     <div class="info">
                         <input type="checkbox" onchange="marcar(${reto.id})">
-                        <span>${reto.nombre}</span>
+                        <div>
+                            <span>${reto.nombre}</span><br>
+                            <span class="badge">${reto.cat}</span>
+                        </div>
                     </div>
-                    <a href="${reto.url}" class="btn-acceder" target="_blank">Acceder</a>
+                    <a href="retos/reto${reto.id}.html" class="btn-acceder" target="_blank">Entrar</a>
                 </div>
             `).join('')
         }
