@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 15: Control de Acceso Roto</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .panel { border: 2px solid #f85149; padding: 40px; border-radius: 15px; text-align: center; }
+        .restricted { color: #f85149; font-size: 1.5rem; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <div class="restricted">🔒 SECCIÓN RESTRINGIDA</div>
+        <p>Nivel de acceso detectado: <span id="level" style="color:#58a6ff">Cargando...</span></p>
+        <div id="flag" style="display:none; margin-top:20px; padding:10px; border:1px dashed #3fb950; color:#3fb950">
+            FLAG: FLAG{COOKIE_TAMPERING_EXPERT}
+        </div>
+        <button onclick="verificar()">Re-verificar Credenciales</button>
+    </div>
+
+    <script>
+        // Configurar cookie inicial si no existe
+        if (!document.cookie.includes('access_level')) {
+            document.cookie = "access_level=basic; path=/;"
+        }
+
+        const verificar = () => {
+            const cookies = document.cookie.split('; ')
+            const accessCookie = cookies.find(row => row.startsWith('access_level='))
+            const level = accessCookie ? accessCookie.split('=')[1] : 'none'
+
+            document.getElementById('level').innerText = level
+
+            if (level === 'owner_root') {
+                document.getElementById('flag').style.display = 'block'
+                document.querySelector('.panel').style.borderColor = '#3fb950'
+                document.querySelector('.restricted').innerText = "🔓 ACCESO PROPIETARIO"
+                document.querySelector('.restricted').style.color = "#3fb950"
+            }
+        }
+
+        verificar()
+    </script>
+</body>
+</html>
