@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 12: Manipulación de Tokens</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .token-box { background: #161b22; padding: 2rem; border: 1px solid #30363d; border-radius: 8px; width: 400px; overflow-wrap: break-word; }
+        .code { background: #000; padding: 10px; color: #ff7b72; font-family: monospace; border-radius: 4px; margin: 15px 0; font-size: 0.9rem; }
+        input { width: 100%; padding: 10px; margin-top: 10px; background: #0d1117; border: 1px solid #30363d; color: white; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <div class="token-box">
+        <h3>Auth Token Checker</h3>
+        <p>Tu Session Token actual:</p>
+        <div class="code">eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VyIjoiaGFja2VyIiwiaXNBZG1pbiI6ZmFsc2V9.</div>
+        <p>Pega tu Token modificado para validar:</p>
+        <input type="text" id="token-input" placeholder="Pega el nuevo token aquí...">
+        <button onclick="validar()" style="margin-top:15px; width: 100%; padding: 10px; background: #238636; color: white; border: none; border-radius: 4px; cursor: pointer;">Validar Acceso</button>
+        <div id="res" style="margin-top: 15px; font-weight: bold;"></div>
+    </div>
+
+    <script>
+        const validar = () => {
+            const input = document.getElementById('token-input').value
+            const res = document.getElementById('res')
+            
+            try {
+                // El participante debe decodificar la parte del medio (payload)
+                const payloadB64 = input.split('.')[1]
+                const payload = JSON.parse(atob(payloadB64))
+
+                if (payload.isAdmin === true) {
+                    res.style.color = "#3fb950"
+                    res.innerText = "¡BIENVENIDO ADMIN! FLAG{JWT_INSECURE_SIGNATURE_NONE}"
+                } else {
+                    res.style.color = "#f85149"
+                    res.innerText = "Acceso denegado: No eres administrador."
+                }
+            } catch(e) {
+                res.innerText = "Token inválido."
+            }
+        }
+    </script>
+</body>
+</html>
