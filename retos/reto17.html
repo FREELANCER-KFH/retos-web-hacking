@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 17: Contaminación de Prototipos</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: monospace; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .box { border: 1px solid #f85149; padding: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h3>Verificador de Permisos de Sistema</h3>
+        <p>Estado actual: <span id="status" style="color:#f85149">Acceso Denegado</span></p>
+        <button onclick="check()">Ejecutar Validación</button>
+        <div id="flag" style="display:none; margin-top:20px; color:#3fb950">FLAG{PROTOTYPE_POLLUTION_FOUND}</div>
+    </div>
+
+    <script>
+        const check = () => {
+            // Se crea un objeto vacío que NO debería tener isAdmin
+            const userSession = {} 
+            
+            if (userSession.isAdmin) {
+                document.getElementById('status').innerText = "Acceso Concedido (Admin)"
+                document.getElementById('status').style.color = "#3fb950"
+                document.getElementById('flag').style.display = "block"
+            } else {
+                alert("userSession.isAdmin es undefined. No eres admin.")
+            }
+        }
+        console.log("Tip: ¿Puedes hacer que {} tenga la propiedad isAdmin? Prueba: Object.prototype.isAdmin = true")
+    </script>
+</body>
+</html>
