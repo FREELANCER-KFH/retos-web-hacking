@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 6: Inyección de Contenido</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; padding: 20px; }
+        .container { max-width: 500px; margin: auto; background: #161b22; padding: 20px; border: 1px solid #30363d; }
+        input { width: 80%; padding: 10px; background: #0d1117; border: 1px solid #30363d; color: white; }
+        .comment { border-bottom: 1px solid #30363d; padding: 10px; margin-top: 10px; color: #8b949e; }
+        #secret-flag { display: none; color: #ff7b72; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Libro de Visitas Público</h3>
+        <input type="text" id="userInput" placeholder="Escribe un comentario...">
+        <button onclick="postComment()">Publicar</button>
+        <div id="wall"></div>
+        <div id="secret-flag">FLAG{XSS_CONTENT_INJECTION_2026}</div>
+    </div>
+
+    <script>
+        const postComment = () => {
+            const input = document.getElementById('userInput').value
+            const wall = document.getElementById('wall')
+            
+            // Vulnerabilidad: No se usa textContent, se usa innerHTML
+            const newComment = document.createElement('div')
+            newComment.className = 'comment'
+            newComment.innerHTML = `Usuario dice: ${input}`
+            wall.appendChild(newComment)
+
+            // Pista: Si logras inyectar un estilo que muestre #secret-flag, ganas.
+            // Solución: <img src=x onerror="document.getElementById('secret-flag').style.display='block'">
+        }
+    </script>
+</body>
+</html>
