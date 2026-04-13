@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 7: Referencia Directa</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding-top: 50px; }
+        .profile-card { background: #161b22; border: 1px solid #30363d; padding: 30px; border-radius: 10px; width: 300px; text-align: center; }
+        .avatar { width: 80px; height: 80px; background: #30363d; border-radius: 50%; margin: 0 auto 15px; }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <div class="avatar"></div>
+        <h2 id="userName">Cargando...</h2>
+        <p id="userRole">Rol: Usuario Estándar</p>
+        <div id="data">ID de Cuenta: 105</div>
+        <p id="flag" style="display:none; color:#d29922; margin-top:15px">FLAG{IDOR_DISCOVERY_SUCCESS}</p>
+    </div>
+
+    <script>
+        const database = {
+            1: { name: "Admin_KFH", role: "SuperAdmin", flag: true },
+            105: { name: "Invitado_Hacker", role: "Viewer", flag: false }
+        }
+
+        window.fetchProfile = (id) => {
+            const user = database[id]
+            if (user) {
+                document.getElementById('userName').innerText = user.name
+                document.getElementById('userRole').innerText = `Rol: ${user.role}`
+                document.getElementById('data').innerText = `ID de Cuenta: ${id}`
+                document.getElementById('flag').style.display = user.flag ? 'block' : 'none'
+            } else {
+                alert("Usuario no encontrado")
+            }
+        }
+
+        // Carga inicial
+        fetchProfile(105)
+        console.log("Tip: El sistema consulta perfiles por ID. Prueba fetchProfile(1)")
+    </script>
+</body>
+</html>
