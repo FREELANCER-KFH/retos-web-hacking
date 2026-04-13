@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 13: Inyección NoSQL</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-box { background: #161b22; padding: 2rem; border: 1px solid #30363d; border-radius: 8px; width: 320px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; background: #0d1117; border: 1px solid #30363d; color: #58a6ff; box-sizing: border-box; font-family: monospace; }
+        button { width: 100%; padding: 10px; background: #238636; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .hint { font-size: 0.7rem; color: #8b949e; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h3>Portal de Base de Datos</h3>
+        <p style="font-size: 0.8rem;">Autenticación via MongoDB Query</p>
+        <input type="text" id="user" placeholder="Username">
+        <input type="text" id="pass" placeholder="Password">
+        <button onclick="login()">Consultar</button>
+        <div id="res" style="margin-top: 15px; text-align: center;"></div>
+        <p class="hint">Pista: El sistema usa objetos JSON para las consultas. Intenta inyectar un operador 'not equal' en el password.</p>
+    </div>
+
+    <script>
+        const login = () => {
+            const user = document.getElementById('user').value
+            const pass = document.getElementById('pass').value
+            const res = document.getElementById('res')
+
+            // Simulación de lógica NoSQL vulnerable
+            // El atacante podría enviar: {"$ne": "admin"} o {"$gt": ""}
+            if (user === 'admin' && (pass === 'kfh_ultra_secret_pass_2026' || pass.includes('$ne'))) {
+                res.innerHTML = '<b style="color:#3fb950">FLAG{NOSQL_BYPASS_OBJECT_INJECTION}</b>'
+            } else {
+                res.innerHTML = '<span style="color:#f85149">Usuario o Password incorrecto</span>'
+            }
+        }
+    </script>
+</body>
+</html>
