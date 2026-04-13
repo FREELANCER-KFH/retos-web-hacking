@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 14: SSRF Interno</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: monospace; padding: 40px; }
+        .terminal { background: #000; border: 1px solid #30363d; padding: 20px; max-width: 700px; margin: auto; }
+        .url-input { color: #3fb950; font-weight: bold; }
+        input { background: transparent; border: none; border-bottom: 1px solid #3fb950; color: #3fb950; width: 300px; outline: none; }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <h3>Proxy de Auditoría de Red</h3>
+        <p>Introduce la URL del microservicio para verificar estado:</p>
+        <span class="url-input">API_FETCH_URL: </span>
+        <input type="text" id="target" value="https://api.kfh-labs.com/status">
+        <button onclick="fetchData()" style="background:#3fb950; border:none; padding:5px 10px; cursor:pointer">FETCH</button>
+        <hr style="border:0.5px solid #333">
+        <div id="response" style="color:#8b949e">Esperando petición...</div>
+    </div>
+
+    <script>
+        const internalServices = {
+            "http://localhost:8080/admin": "ACCESO INTERNO: FLAG{SSRF_LOCAL_PORT_FOUND}",
+            "http://127.0.0.1:8080/admin": "ACCESO INTERNO: FLAG{SSRF_LOCAL_PORT_FOUND}",
+            "https://api.kfh-labs.com/status": "{\"status\": \"online\", \"uptime\": \"365d\"}"
+        }
+
+        const fetchData = () => {
+            const url = document.getElementById('target').value
+            const res = document.getElementById('response')
+            res.innerText = "Realizando petición interna..."
+
+            setTimeout(() => {
+                res.innerText = internalServices[url] || `Error: No se pudo conectar a ${url}. (Timeout o Firewall Externo)`
+            }, 1000)
+        }
+    </script>
+</body>
+</html>
