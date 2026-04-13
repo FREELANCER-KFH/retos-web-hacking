@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nivel 20: Redirección Abierta</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; text-align: center; padding-top: 100px; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #58a6ff; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <h2>Saliendo de la plataforma segura...</h2>
+    <p>Estás siendo redirigido a: <span id="dest" style="color:#58a6ff">Cargando...</span></p>
+    <div class="loader"></div>
+
+    <script>
+        // Simulando captura de parámetro URL: ?redirect=https://google.com
+        let target = "https://kfh-labs.com/dashboard" 
+        
+        const params = new URLSearchParams(window.location.search)
+        const customRedirect = params.get('redirect')
+
+        if (customRedirect) {
+            target = customRedirect
+        }
+
+        document.getElementById('dest').innerText = target
+
+        setTimeout(() => {
+            if (target.includes('evil.com')) {
+                document.body.innerHTML = "<h1 style='color:#f85149'>🚩 ¡VULNERADO! FLAG{OPEN_REDIRECT_EXPLOITED}</h1><p>Has redirigido al usuario fuera del entorno seguro.</p>"
+            } else {
+                alert("Redirigiendo de forma segura a " + target)
+            }
+        }, 3000)
+
+        console.log("Pista: Prueba añadiendo '?redirect=http://evil.com' a la URL (simulado en el código)")
+    </script>
+</body>
+</html>
